@@ -1,7 +1,7 @@
 #include <WiFi.h>
 // Replace with your network credentials
-const char* ssid     = "KenB";  //AP分享器SSID
-const char* password = "2587566225875662";    //AP分享器密碼
+const char* ssid     = "ken";  //AP分享器SSID
+const char* password = "12345678";    //AP分享器密碼
 WiFiServer server(80);
 
 // Variable to store the HTTP request

@@ -8,19 +8,6 @@ import codecs
 import requests
 import pymysql
 
-'''
-https://github.com/Kitware/CMake/
-cmake-3.27.1-windows-x86_64.msi
-
-requests
-pymysql
-dlib
-opencv-python
-face_recognition_models
-pip install face_recognition
-
-'''
-
 
 def db_insert(name):
     try:
@@ -43,7 +30,6 @@ def db_insert(name):
         print(ex)
 
 
-
 keyb = 0
 with open("classNamesFile.txt", "r") as f:  # 從classNamesFile.txt中讀出相片(人物)的名稱
     classNames= f.read().splitlines()
@@ -54,7 +40,7 @@ with open("array.bin", "rb") as f:
 encodeListKnown= encodeListKnown.reshape(-1, 128)
 print('讀入 ', len(encodeListKnown),'個人物編碼 ')
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 
 while True:
     prev_time = time.time()
@@ -74,18 +60,18 @@ while True:
             name = classNames[matchIndex]
             '''
             try:
-                requests.get("http://172.24.0.104/on")
+                requests.get("http://192.168.137.74/on")
                 time.sleep(1)
-                requests.get("http://172.24.0.104/off")
+                requests.get("http://192.168.137.74/off")
             except Exception as ex:
                 print(ex)
             '''
         else:     # 如果編碼比對為False時，代表不在名單中
             name = '不在名單中'
-        db_insert(name)
         print("matchIndex = ", matchIndex, name)
-        time.sleep(3)
-        
+        #db_insert(name)
+        #time.sleep(3)
+
         y1, x2, y2, x1 = faceLoc
         y1, x2, y2, x1 = y1 * 2, x2 * 2, y2 * 2, x1 * 2
         # y1, x2, y2, x1 = y1 , x2 , y2 , x1
@@ -109,9 +95,9 @@ while True:
                 db_insert(name)
                 '''
                 try:
-                    requests.get("http://172.24.0.104/on")
+                    requests.get("http://192.168.137.74/on")
                     time.sleep(1)
-                    requests.get("http://172.24.0.104/off")
+                    requests.get("http://192.168.137.74/off")
                     #cv2.putText(frame, 'Registered', (10, 430), cv2.FONT_HERSHEY_COMPLEX , 1, (0, 0, 255), 1, cv2.LINE_AA)
                 except Exception as ex:
                     print(ex)
@@ -123,5 +109,3 @@ while True:
     keyb = cv2.waitKey(1) & 0xFF
     if keyb == 27:  # 按 esc 結束程式
         break
-
-
