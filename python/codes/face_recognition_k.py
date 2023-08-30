@@ -58,18 +58,18 @@ while True:
         matchIndex = np.argmin(faceDis)
         if matches[matchIndex]:  # 如果距離最短的臉孔，在已知臉孔編碼比對為True時
             name = classNames[matchIndex]
-            '''
+
             try:
-                requests.get("http://192.168.137.74/on")
+                requests.get("http://192.168.137.239/on")
                 time.sleep(1)
-                requests.get("http://192.168.137.74/off")
+                requests.get("http://192.168.137.239/off")
             except Exception as ex:
                 print(ex)
-            '''
+
         else:     # 如果編碼比對為False時，代表不在名單中
             name = '不在名單中'
         print("matchIndex = ", matchIndex, name)
-        #db_insert(name)
+        db_insert(name)
         #time.sleep(3)
 
         y1, x2, y2, x1 = faceLoc
@@ -93,15 +93,15 @@ while True:
             if (name not in nameList) or (keyb == ord('s')):  # 按 s 手動登記
                 f.writelines(f'\n{name},{dtString}')
                 db_insert(name)
-                '''
+
                 try:
-                    requests.get("http://192.168.137.74/on")
+                    requests.get("http://192.168.137.239/on")
                     time.sleep(1)
-                    requests.get("http://192.168.137.74/off")
+                    requests.get("http://192.168.137.239/off")
                     #cv2.putText(frame, 'Registered', (10, 430), cv2.FONT_HERSHEY_COMPLEX , 1, (0, 0, 255), 1, cv2.LINE_AA)
                 except Exception as ex:
                     print(ex)
-                '''
+
 
     cv2.putText(frame, 'fps: ' + str(int(1 / (time.time() - prev_time))), (20, 30),
                 cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 1, cv2.LINE_AA)
